@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import MenuBar from "./MenuBar";
 import { Profile, Photos, Cocktails, Pokemon } from "./pages";
 
@@ -11,12 +11,30 @@ function MainBox() {
     - Which component should have methods to control state? 
     - Where should these methods be called?
   */
+  const [isClicked, setIsClicked] = useState(<Profile />)
+  const [selectedItem, setSelectedItem] = useState({})
 
-  let detailsToDisplay = <div>Hi, I'm a div!</div>;
+  let detailsToDisplay = isClicked
 
+  function handleClick(clickedSpan) {
+    if(clickedSpan === "profile") {
+      setIsClicked(<Profile />)
+      setSelectedItem(clickedSpan)
+  } else if (clickedSpan === "photos"){
+    setIsClicked(<Photos />)
+    setSelectedItem(clickedSpan)
+  } else if (clickedSpan === "cocktails"){
+    setIsClicked(<Cocktails />)
+    setSelectedItem(clickedSpan)
+  } else {
+    setIsClicked(<Pokemon />)
+    setSelectedItem(clickedSpan)
+  }
+}
+  
   return (
     <div>
-      <MenuBar />
+      <MenuBar onHandleClick={handleClick} selectedItem={selectedItem}/>
       {detailsToDisplay}
     </div>
   );
